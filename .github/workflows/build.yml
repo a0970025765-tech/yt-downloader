@@ -9,10 +9,22 @@ jobs:
       - name: 取得您的程式碼
         uses: actions/checkout@v4
 
-      - name: 啟動 Flet 雲端打包機
-        uses: flet-dev/action-build@v1
+      - name: 設定 Python 環境
+        uses: actions/setup-python@v5
         with:
-          target: apk
+          python-version: '3.11'
+
+      - name: 設定 Java 環境 (Android 打包必備)
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: 安裝 Flet 打包工具
+        run: pip install flet
+
+      - name: 啟動全自動打包程序 (這步會跑比較久，會自動下載 Android SDK)
+        run: flet build apk
 
       - name: 輸出 APK 檔案
         uses: actions/upload-artifact@v4
