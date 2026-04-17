@@ -1,0 +1,21 @@
+name: Build Android APK
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 取得您的程式碼
+        uses: actions/checkout@v4
+
+      - name: 啟動 Flet 雲端打包機
+        uses: flet-dev/action-build@v1
+        with:
+          target: apk
+
+      - name: 輸出 APK 檔案
+        uses: actions/upload-artifact@v4
+        with:
+          name: my-app-release
+          path: build/apk/**/*.apk
